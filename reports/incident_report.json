@@ -1,0 +1,58 @@
+[
+  {
+    "severity": "CRITICAL",
+    "type": "Brute Force Attack",
+    "source_ip": "192.168.1.105",
+    "detail": "4 failed login attempts detected",
+    "event_id": "4625",
+    "action": "Block IP immediately, notify L2 analyst"
+  },
+  {
+    "severity": "HIGH",
+    "type": "Off-Hours Login",
+    "source_ip": "192.168.1.105",
+    "detail": "User admin logged in at 2024-01-15 02:30:19",
+    "event_id": "4624",
+    "action": "Verify with user, check geolocation"
+  },
+  {
+    "severity": "HIGH",
+    "type": "Off-Hours Login",
+    "source_ip": "185.220.101.45",
+    "detail": "User finance_user logged in at 2024-01-15 03:45:00",
+    "event_id": "4624",
+    "action": "Verify with user, check geolocation"
+  },
+  {
+    "severity": "HIGH",
+    "type": "Off-Hours Login",
+    "source_ip": "45.33.32.156",
+    "detail": "User root logged in at 2024-01-15 02:55:00",
+    "event_id": "4624",
+    "action": "Verify with user, check geolocation"
+  },
+  {
+    "severity": "HIGH",
+    "type": "External IP Access",
+    "source_ip": "185.220.101.45",
+    "detail": "Login from external IP by finance_user",
+    "event_id": "4624",
+    "action": "Verify legitimacy, check threat intel"
+  },
+  {
+    "severity": "HIGH",
+    "type": "External IP Access",
+    "source_ip": "45.33.32.156",
+    "detail": "Login from external IP by root",
+    "event_id": "4648",
+    "action": "Verify legitimacy, check threat intel"
+  },
+  {
+    "severity": "MEDIUM",
+    "type": "Privileged Credential Use",
+    "source_ip": "45.33.32.156",
+    "detail": "Explicit credential use by root",
+    "event_id": "4648",
+    "action": "Verify if authorized, check for lateral movement"
+  }
+]

@@ -1,14 +1,15 @@
 import pandas as pd
 from datetime import datetime
 import json
+import os
 
-# Load logs
-df = pd.read_csv('security_logs.csv')
+# Load logs with correct path
+df = pd.read_csv('logs/security_logs.csv')
 df['timestamp'] = pd.to_datetime(df['timestamp'])
 
 alerts = []
 
-# Rule 1: Brute Force Detection (5+ failed logins from same IP)
+# Rule 1: Brute Force Detection (3+ failed logins from same IP)
 failed_logins = df[df['event_id'] == 4625]
 brute_force = failed_logins.groupby('source_ip').size()
 for ip, count in brute_force.items():
@@ -64,12 +65,13 @@ for _, row in priv_logins.iterrows():
 print("\n" + "="*60)
 print("       SOC INCIDENT REPORT")
 print("="*60)
-print(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-print(f"Total Logs Analyzed: {len(df)}")
-print(f"Total Alerts: {len(alerts)}")
-print(f"Critical: {sum(1 for a in alerts if a['severity']=='CRITICAL')}")
-print(f"High:     {sum(1 for a in alerts if a['severity']=='HIGH')}")
-print(f"Medium:   {sum(1 for a in alerts if a['severity']=='MEDIUM')}")
+print(f"Generated : {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+print(f"Analyst   : Snehal Pawar")
+print(f"Logs      : {len(df)} total entries analyzed")
+print(f"Alerts    : {len(alerts)} total")
+print(f"Critical  : {sum(1 for a in alerts if a['severity']=='CRITICAL')}")
+print(f"High      : {sum(1 for a in alerts if a['severity']=='HIGH')}")
+print(f"Medium    : {sum(1 for a in alerts if a['severity']=='MEDIUM')}")
 print("="*60)
 
 for i, alert in enumerate(alerts, 1):
@@ -79,7 +81,13 @@ for i, alert in enumerate(alerts, 1):
     print(f"  Detail    : {alert['detail']}")
     print(f"  Action    : {alert['action']}")
 
+# Create reports folder if it doesn't exist
+os.makedirs('reports', exist_ok=True)
+
 # Save report to JSON
-with open('incident_report.json', 'w') as f:
-    json.dump(alerts, f, indent=2)
-print("\n✅ Full report saved to incident_report.json")
+with open('reports/incident_report.json', 'w') as f:
+    json.dump(alerts, f, indent=2, default=str)
+
+print("\n" + "="*60)
+print("✅ Full report saved to reports/incident_report.json")
+print("="*60)
