@@ -90,4 +90,8 @@ with open('reports/incident_report.json', 'w') as f:
 
 print("\n" + "="*60)
 print("✅ Full report saved to reports/incident_report.json")
+<<<<<<< HEAD
 print("="*60)
+=======
+print("="*60)
+>>>>>>> 4b767a46b13789c7f49dc6780142d693176d22c3
