@@ -72,5 +72,5 @@ incident report generated from detected alerts.
 
 ## 👤 Author
 
-Your Name — Cybersecurity Enthusiast
-LinkedIn: your-link
+Snehal Pawar — Cybersecurity Enthusiast
+LinkedIn: https://www.linkedin.com/in/snehal-pawar-0884b1278
