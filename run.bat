@@ -1,4 +1,9 @@
 @echo off
-echo Starting SOC Log Analyzer...
+echo ========================================
+echo        SOC Log Analyzer Starting...
+echo ========================================
 C:\Users\HP\AppData\Local\Programs\Python\Python311\python.exe analyzer/log_analyzer.py
-pause
+echo.
+echo ========================================
+echo Press any key to close...
+pause > nul
