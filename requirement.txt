@@ -1,0 +1,2 @@
+# Inside the main folder, create this file
+pandas==2.0.0
