@@ -1,3 +1,4 @@
+
 import pandas as pd
 from datetime import datetime
 import json
@@ -9,7 +10,7 @@ df['timestamp'] = pd.to_datetime(df['timestamp'])
 
 alerts = []
 
-# Rule 1: Brute Force Detection (3+ failed logins from same IP)
+# Rule 1: Brute Force Detection
 failed_logins = df[df['event_id'] == 4625]
 brute_force = failed_logins.groupby('source_ip').size()
 for ip, count in brute_force.items():
@@ -23,7 +24,7 @@ for ip, count in brute_force.items():
             "action": "Block IP immediately, notify L2 analyst"
         })
 
-# Rule 2: Off-Hours Login (between 11PM - 6AM)
+# Rule 2: Off-Hours Login
 for _, row in df[df['status'] == 'SUCCESS'].iterrows():
     hour = row['timestamp'].hour
     if hour >= 23 or hour <= 6:
@@ -36,7 +37,7 @@ for _, row in df[df['status'] == 'SUCCESS'].iterrows():
             "action": "Verify with user, check geolocation"
         })
 
-# Rule 3: External IP Login (not internal 10.x or 192.168.x)
+# Rule 3: External IP Login
 for _, row in df[df['status'] == 'SUCCESS'].iterrows():
     ip = row['source_ip']
     if not (ip.startswith('10.') or ip.startswith('192.168.')):
@@ -49,7 +50,7 @@ for _, row in df[df['status'] == 'SUCCESS'].iterrows():
             "action": "Verify legitimacy, check threat intel"
         })
 
-# Rule 4: Privileged Login (Event ID 4648)
+# Rule 4: Privileged Login
 priv_logins = df[df['event_id'] == 4648]
 for _, row in priv_logins.iterrows():
     alerts.append({
@@ -61,7 +62,7 @@ for _, row in priv_logins.iterrows():
         "action": "Verify if authorized, check for lateral movement"
     })
 
-# Generate Incident Report
+# Print Incident Report
 print("\n" + "="*60)
 print("       SOC INCIDENT REPORT")
 print("="*60)
@@ -81,17 +82,11 @@ for i, alert in enumerate(alerts, 1):
     print(f"  Detail    : {alert['detail']}")
     print(f"  Action    : {alert['action']}")
 
-# Create reports folder if it doesn't exist
+# Save report
 os.makedirs('reports', exist_ok=True)
-
-# Save report to JSON
 with open('reports/incident_report.json', 'w') as f:
     json.dump(alerts, f, indent=2, default=str)
 
 print("\n" + "="*60)
 print("✅ Full report saved to reports/incident_report.json")
-<<<<<<< HEAD
 print("="*60)
-=======
-print("="*60)
->>>>>>> 4b767a46b13789c7f49dc6780142d693176d22c3
